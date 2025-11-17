@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华夏共和国 - 贡献者名单</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #C8102E;
+            --primary-dark: #9B0C23;
+            --accent-color: #ffae00;
+            --text-color: #2C3E50;
+            --text-light: #5A6C7D;
+            --light-bg: #F8F9FA;
+            --white: #FFFFFF;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 12px;
+        }
+
+        /* 深色模式变量覆盖 */
+        :root[data-theme="dark"] {
+            --primary-color: #F97373;
+            --primary-dark: #F05252;
+            --accent-color: #FACC15;
+            --text-color: #E5E7EB;
+            --text-light: #9CA3AF;
+            --light-bg: #020617;
+            --white: #111827;
+            --shadow: 0 4px 18px rgba(0,0,0,0.7);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 顶部导航 */
+        header {
+            background: var(--white);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 0.7rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+            margin-left: 6px;
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 深色模式切换按钮 */
+        .theme-toggle {
+            border: none;
+            background: rgba(148, 163, 184, 0.18);
+            padding: 0.5rem 0.7rem;
+            border-radius: 999px;
+            cursor: pointer;
+            margin-left: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle i {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(148, 163, 184, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 22px;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: var(--primary-color);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        /* 顶部横幅 */
+        .hero {
+            background: linear-gradient(135deg, rgba(200, 16, 46, 0.95), rgba(155, 12, 35, 0.9));
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #fff; /* 不用变量，直接纯白 */
+            position: relative;
+            padding-top: 100px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 222, 0, 0.15), transparent 55%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5vw, 3.4rem);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.25);
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            max-width: 680px;
+            margin: 0.5rem auto 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-tagline {
+            font-size: 0.95rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            opacity: 0.9;
+        }
+
+        .badge-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.9rem;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .badge-hero i {
+            font-size: 0.9rem;
+        }
+
+        .welcome-box {
+            margin-top: 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: var(--border-radius);
+            padding: 1.6rem 1.8rem;
+            text-align: left;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        :root[data-theme="dark"] .welcome-box {
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        :root[data-theme="dark"] .btn-outline {
+            border-color: #fff;
+            color: #fff;
+        }
+
+        .welcome-box p {
+            margin-bottom: 0.7rem;
+            font-size: 0.98rem;
+        }
+
+        .welcome-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .welcome-box a {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .welcome-box a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.85rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-size: 0.98rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+            margin: 0.3rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--white);
+            box-shadow: none;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(200, 16, 46, 0.4);
+        }
+
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--primary-color);
+            border-color: var(--white);
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            color: var(--primary-color);
+            font-weight: 700;
+            position: relative;
+        }
+
+        section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        .section-desc {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            color: var(--text-light);
+            font-size: 0.98rem;
+        }
+
+        .contributors-wrapper {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem 2rem 2.8rem;
+        }
+
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .category-pill {
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            background: var(--light-bg);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .category-pill i {
+            font-size: 0.9rem;
+        }
+
+        .category-pill:hover {
+            background: #fff7da;
+            border-color: rgba(200, 16, 46, 0.25);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        :root[data-theme="dark"] .category-pill:hover {
+            background: #4b5563;
+            border-color: rgba(250, 204, 21, 0.4);
+        }
+
+        .contrib-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .contrib-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid #edf0f3;
+            padding-bottom: 0.6rem;
+        }
+
+        :root[data-theme="dark"] .contrib-section-header {
+            border-bottom-color: #374151;
+        }
+
+        .contrib-section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .contrib-section-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .category-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .contrib-list {
+            list-style: none;
+        }
+
+        .contrib-list li {
+            padding: 0.8rem 0.4rem;
+            border-bottom: 1px dashed #e2e6eb;
+        }
+
+        .contrib-list li:last-child {
+            border-bottom: none;
+        }
+
+        :root[data-theme="dark"] .contrib-list li {
+            border-bottom-color: #4b5563;
+        }
+
+        .name-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .name-row a {
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .name-row a:hover {
+            text-decoration: underline;
+        }
+
+        .latin-name {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .alias {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .badge-role {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 0.18rem 0.6rem;
+            border-radius: 999px;
+            background: #fff7da;
+            color: #8f4a00;
+            margin-right: 0.3rem;
+            margin-top: 0.15rem;
+        }
+
+        .badge-note {
+            display: inline-block;
+            font-size: 0.78rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            background: #eef3ff;
+            color: #4958a7;
+            margin-top: 0.15rem;
+        }
+
+        .badge-inactive {
+            background: #f3f4f6;
+            color: #7b7f88;
+        }
+
+        :root[data-theme="dark"] .badge-role {
+            background: #451a03;
+            color: #fed7aa;
+        }
+
+        :root[data-theme="dark"] .badge-note {
+            background: #1d283a;
+            color: #bfdbfe;
+        }
+
+        :root[data-theme="dark"] .badge-inactive {
+            background: #374151;
+            color: #e5e7eb;
+        }
+
+        .contrib-meta {
+            font-size: 0.86rem;
+            color: var(--text-light);
+            margin-top: 0.15rem;
+        }
+
+        .contrib-meta span {
+            white-space: nowrap;
+        }
+
+        .highlight-box {
+            margin-top: 0.8rem;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            background: #fff8ec;
+            border-left: 4px solid var(--accent-color);
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        :root[data-theme="dark"] .highlight-box {
+            background: #351f0d;
+        }
+
+        /* 底部 */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+            margin-top: 3rem;
+        }
+
+        :root[data-theme="dark"] footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .footer-section p {
+            color: #bbb;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.6rem;
+            transition: var(--transition);
+            font-size: 0.92rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+
+        .xiaohongshu-btn {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #FF2442, #E61E3D);
+            color: white;
+            padding: 0.7rem 1.4rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(255, 36, 66, 0.4);
+            margin-top: 0.6rem;
+        }
+
+        .xiaohongshu-btn i {
+            margin-right: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .xiaohongshu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 36, 66, 0.5);
+            background: linear-gradient(135deg, #E61E3D, #CC1A35);
+        }
+
+        .qq-btn {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #12b7f5, #168bff);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(22, 139, 255, 0.4);
+            margin-top: 0.7rem;
+        }
+
+        .qq-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(22, 139, 255, 0.5);
+            background: linear-gradient(135deg, #168bff, #0f76e0);
+        }
+
+        .qq-btn i {
+            margin-right: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .copyright {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+            text-align: center;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                flex-direction: column;
+                padding: 1.2rem 0;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                gap: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.9rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(7px, 7px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+
+            section {
+                padding: 4rem 0;
+            }
+
+            .contributors-wrapper {
+                padding: 2rem 1.4rem 2.2rem;
+            }
+
+            .welcome-box {
+                padding: 1.3rem 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+
+            .hero-content {
+                padding: 2.3rem 1.2rem;
+            }
+
+            .badge-hero {
+                font-size: 0.78rem;
+            }
+
+            .category-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航 -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <div class="logo">OpenGeofiction <span>华夏</span></div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">项目主页</a></li>
+                    <li><a href="#active">活跃用户</a></li>
+                    <li><a href="#occasional">偶尔·曾经活跃</a></li>
+                    <li><a href="#cameo">友情客串</a></li>
+                    <li><a href="#newcomers">初来乍到</a></li>
+                    <li><a href="#thanks">特别鸣谢</a></li>
+                    <li><a href="#passersby">到此一游</a></li>
+                    <li class="lang-switch">
+                        <a href="#" class="active-lang">中文</a>
+                        <span>|</span>
+                        <a href="Collaborators-en.html">Original / EN</a>
+                    </li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle" aria-label="切换深色模式">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 顶部横幅 -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="badge-hero">
+                <i class="fa-solid fa-users"></i>
+                华夏项目贡献者 · Huaxia Contributors
+            </div>
+            <div class="hero-tagline">感谢每一位在地图上「留下足迹」的创作者</div>
+            <h1>贡献者名单 / Contributors</h1>
+            <p>
+                从中央协调到城市街巷，从高速公路到铁路枢纽，华夏的每一条线、每一个点，都来自这些
+                贡献者的耐心描绘与灵感创作。
+            </p>
+            <a href="https://opengeofiction.net" class="btn btn-outline" target="_blank">前往 OpenGeofiction</a>
+            <a href="#active" class="btn">浏览贡献者名单</a>
+
+            <div class="welcome-box">
+                <p><strong>加入说明</strong><br>
+                    我们欢迎任何人加入华夏，不过我们推荐您会一些中文。欲正式加入，请查看我们的
+                    <a href="/index.php/Collab:Huaxia/Guide" target="_blank">绘图指南</a>
+                    和联系
+                    <a href="https://opengeofiction.net/message/new/快乐的老鼠宝宝" target="_blank">快乐的老鼠宝宝</a>。
+                </p>
+                <p><strong>Join us</strong><br>
+                    We welcome anyone to join Huaxia; however, we recommend that you have some knowledge of Chinese.
+                    If you wish to officially join, please review our
+                    <a href="/index.php/Collab:Huaxia/Guide" target="_blank"><em>Mapping Guide</em></a>
+                    and contact
+                    <a href="https://opengeofiction.net/message/new/快乐的老鼠宝宝" target="_blank">
+                        Laoshu Baby (快乐的老鼠宝宝)
+                    </a>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 贡献者列表主体 -->
+    <section id="contributors">
+        <div class="container">
+            <h2>贡献者一览 / Contributors Overview</h2>
+            <p class="section-desc">
+                本页面按活跃度与参与方式整理了华夏协作项目的贡献者名单，涵盖核心协调者、活跃制图者、
+                偶尔参与者、友情客串、新人以及特别鸣谢与「到此一游」的朋友们。
+            </p>
+
+            <div class="contributors-wrapper">
+                <div class="category-nav">
+                    <a href="#active" class="category-pill">
+                        <i class="fa-solid fa-circle-dot"></i> 活跃用户 / Active
+                    </a>
+                    <a href="#occasional" class="category-pill">
+                        <i class="fa-regular fa-clock"></i> 偶尔 · 曾经活跃
+                    </a>
+                    <a href="#cameo" class="category-pill">
+                        <i class="fa-solid fa-handshake-angle"></i> 友情客串
+                    </a>
+                    <a href="#newcomers" class="category-pill">
+                        <i class="fa-solid fa-seedling"></i> 初来乍到
+                    </a>
+                    <a href="#thanks" class="category-pill">
+                        <i class="fa-solid fa-award"></i> 特别鸣谢
+                    </a>
+                    <a href="#passersby" class="category-pill">
+                        <i class="fa-regular fa-compass"></i> 到此一游
+                    </a>
+                </div>
+
+                <!-- 活跃用户 -->
+                <div id="active" class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-title">活跃用户 / Active mappers</div>
+                        <div class="contrib-section-subtitle">长期在华夏境内持续制图与维护的成员</div>
+                    </div>
+                    <div class="category-columns">
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/%E5%BF%AB%E4%B9%90%E7%9A%84%E8%80%81%E9%BC%A0%E5%AE%9D%E5%AE%9D" target="_blank">快乐的老鼠宝宝</a>
+                                    <span class="latin-name">Laoshu Baby</span>
+                                </div>
+                                <div>
+                                    <span class="badge-role">总协调员 / General Coordinator</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    主要活动区域：上京都 / Shangjing Capital，央湖市 / Yanghu City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/NM%24l" target="_blank">NM$l</a>
+                                    <span class="latin-name">(原：流萤酱)</span>
+                                </div>
+                                <div>
+                                    <span class="badge-role">常务协调员 / Permanent Coordinator</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：上京都 / Shangjing、赤汤省 / Chitang、省央湖市 / Yanghu、石布石市 / Shybshi
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Masyas" target="_blank">Masyas</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：金沙省 / Jinsha Province
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/lxgwsierra" target="_blank">lxgwsierra</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：林原省 / Linyuan Province
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/saigyoujinoriko" target="_blank">saigyoujinoriko</a>
+                                    <span class="latin-name">(幽々子 / uuz)</span>
+                                </div>
+                                <div>
+                                    <span class="badge-role">铁路仙人 / Railway Expert</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：宽亭市 / Kuanting City，上京都 / Shangjing Capital，密州市 / Mizhou City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/114514aaa" target="_blank">114514aaa</a>
+                                </div>
+                                <div>
+                                    <span class="badge-role">新人导师 / Mentor for Newcomers</span>
+                                    <span class="badge-role">社媒宣发部 / Social Media</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：滨原路（南滨市） / Binyuan Path (Nanbin)，天门湖市 / Tianmenhu，橙花市 / Chenghua，灵昌市 / Lingchang
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/deep%20river" target="_blank">deep river</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：慈阳市 / Ciyang City，金邑关市 / Jinyiguan City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Taksine" target="_blank">Taksine</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：东马河市 / Dongmahe City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Yongdinghe" target="_blank">Yongdinghe</a>
+                                    <span class="latin-name">（永定河）</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：天保市 / Tianbao City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Kanoxitu" target="_blank">Kanoxitu</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：福定市 / Fuding City，湖隘县 / Hu'ai County
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Red%20Knight" target="_blank">Red Knight</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：福定市 / Fuding City，泃河县 / Juhe County
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/stolas123" target="_blank">stolas123</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：平义市 / Pingyi City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/AmiCridosa" target="_blank">AmiCridosa</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：谐山市 / Xieshan City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Palewod" target="_blank">Palewod</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：西山市 / Xishan City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/kz-star" target="_blank">kz-star</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：津川市 / Jinchuan City
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 偶尔 · 曾经活跃 -->
+                <div id="occasional" class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-title">偶尔 · 曾经活跃 / Occasionally · Used to be active</div>
+                        <div class="contrib-section-subtitle">参与过重要建设，但目前编辑频率相对较低</div>
+                    </div>
+                    <div class="category-columns">
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/DanDo" target="_blank">DanDo</a>
+                                </div>
+                                <div>
+                                    <span class="badge-role">机场仙人 / Airport Expert</span>
+                                    <span class="badge-note">一年画一次，一次画一年</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：良丰市 / Liangfeng City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/First3h" target="_blank">First3h</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：武淞市 / Wusong City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/%E7%90%86%E5%A1%98%E4%B8%81%E7%9C%9F" target="_blank">理塘丁真</a>
+                                    <span class="latin-name">Litang Dingzhen</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：历塘州 / Litong State
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/LatimerHL" target="_blank">LatimerHL</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：江汇市 / Jianghui City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/shining-k" target="_blank">shining-k</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：墨渡市 / Modu City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/MikesonZhang" target="_blank">MikesonZhang</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：甘泉区 / Ganquan District
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/%E7%81%AB%E7%AE%AD%E8%8B%A6%E5%8A%9B%E6%80%95i" target="_blank">火箭苦力怕i</a>
+                                    <span class="latin-name">Huojian Creeper</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：央湖市 / Yanghu City
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/123JK" target="_blank">123JK</a>
+                                </div>
+                                <div>
+                                    <span class="badge-role">高速仙人 / Expwy Expert</span>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：治子市 / Zhizi City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/TGSpace" target="_blank">TGSpace</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：沃浦市 / Wopu City，光东市 / Guangdong City，良山市 / Liangshan City，<br>
+                                    灵水市 / Lingshui City，广海市 / Guanghai City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/LinB-observation" target="_blank">LinB-observation</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：墨渡市 / Modu City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/HugoCG" target="_blank">HugoCG</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：青安厅 / Qing'an County-Leveled City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <s><a href="https://opengeofiction.net/user/yumiqizi" target="_blank">yumiqizi</a></s>
+                                </div>
+                                <div>
+                                    <span class="badge-note badge-inactive">已退出 / formerly active</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <s><a href="https://opengeofiction.net/user/mapper941" target="_blank">mapper941</a></s>
+                                </div>
+                                <div>
+                                    <span class="badge-note badge-inactive">已退出 / formerly active</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 友情客串 + 初来乍到 -->
+                <div id="cameo" class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-title">友情客串 / Friendly cameo</div>
+                        <div class="contrib-section-subtitle">来自其他地区的制图者在华夏的点状参与</div>
+                    </div>
+                    <div class="category-columns">
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Mtejku222" target="_blank">Mtejku222</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：翠流县 / Cuiliu County
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Mie" target="_blank">Mie</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：邱家庄市县 / Qiujiazhuang City
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/%E7%A0%96%E5%AE%B6%E8%AE%A4%E5%8F%AF" target="_blank">砖家认可</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    区域：北峪厅 / Beiyu County-Leveled City
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="newcomers" class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-title">初来乍到 / Newcomers</div>
+                        <div class="contrib-section-subtitle">刚刚踏入华夏、正在起步阶段的制图者</div>
+                    </div>
+                    <div class="category-columns">
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/%E6%88%B7%E5%B1%B1%E9%A6%99%E6%BE%84" target="_blank">户山香澄</a>
+                                    <span class="latin-name">Toyama Kasumi</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/s123456" target="_blank">s123456</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/HerryCFPL" target="_blank">HerryCFPL</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Charlie" target="_blank">Charlie</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/AuroraTwinkle" target="_blank">AuroraTwinkle</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="highlight-box">
+                        欢迎所有新伙伴！如需帮助，请优先联系新人导师及总协调员，或在社群中提出问题。
+                    </div>
+                </div>
+
+                <!-- 特别鸣谢 -->
+                <div id="thanks" class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-title">特别鸣谢 / Special thanks</div>
+                        <div class="contrib-section-subtitle">在项目建立与转型过程中提供关键帮助的制图者</div>
+                    </div>
+                    <div class="category-columns">
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/kengoman" target="_blank">kengoman</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    帮助我们建立华夏项目。<br>
+                                    Helped us to establish the Huaxia project.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Liadrien" target="_blank">Liadrien</a>
+                                </div>
+                                <div class="contrib-meta">
+                                    原 <a href="//opengeofiction.net/relation/372685" target="_blank">ㄈㄣㄏㄡㄦㄎ郡 / Fennhourkh</a> 的绘制者，与华夏项目合作改建并保留此区域，使其融入华夏世界观。<br>
+                                    The original mapper of Fennhourkh who collaborated with us to rebuild it and transition it into Huaxia.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 到此一游 -->
+                <div id="passersby" class="contrib-section">
+                    <div class="contrib-section-header">
+                        <div class="contrib-section-title">到此一游 / Passersby</div>
+                        <div class="contrib-section-subtitle">短暂在华夏留下痕迹的朋友们</div>
+                    </div>
+                    <p class="section-desc">
+                        这里记录了来到华夏只编辑了很短时间、很少东西就不再活跃的用户，
+                        包含带有正式申请的成员和一些「好奇踏入之人」。<br>
+                        Here are mappers who came to Huaxia and edited for a short time and were no longer active,
+                        including members with official applications and some users who just “curiously stepped into Huaxia”.
+                    </p>
+                    <div class="category-columns">
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/booktiger" target="_blank">booktiger</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Jyunhou" target="_blank">Jyunhou</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Yishengjun" target="_blank">Yishengjun</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/%E5%AE%9D%E5%B1%B130r_official" target="_blank">宝山30r_official</a>
+                                    <span class="latin-name">Baoshan 30r_offical</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Alexander%20Hsiao" target="_blank">Alexander Hsiao</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Herman%20Lee" target="_blank">Herman Lee</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Lepus" target="_blank">Lepus</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/OYM" target="_blank">OYM</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Z_Empty" target="_blank">Z_Empty</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Liuterlanian" target="_blank">Liuterlanian</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/hikari" target="_blank">hikari</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="contrib-list">
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/huanfeng" target="_blank">huanfeng</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/carbonated%20hot%20chocolate" target="_blank">carbonated hot chocolate</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/shu" target="_blank">shu</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/%E4%BC%8A%E8%8A%99%E5%A4%A7%E5%B0%8F%E5%A7%90%E6%83%B3%E8%A6%81%E8%A2%AB%E7%8E%9B%E8%8E%89%E4%BA%9A%E9%A9%B1%E5%8A%A8" target="_blank">
+                                        伊芙大小姐想要被玛莉亚驱动
+                                    </a>
+                                    <span class="latin-name">Ifu</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/Serizawa" target="_blank">Serizawa</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="name-row">
+                                    <a href="https://opengeofiction.net/user/yzuio" target="_blank">yzuio</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div> <!-- contributors-wrapper -->
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于华夏项目</h3>
+                    <p>
+                        华夏共和国是OpenGeofiction平台上的协作制图项目，致力于构建一个真实、详细的虚构东方文明国家。
+                        本页面用于记录并感谢所有在华夏留下作品的制图者。
+                    </p>
+                    <a href="新建 文本文档.html">返回项目主页</a>
+                </div>
+                <div class="footer-section">
+                    <h3>快速导航</h3>
+                    <a href="#active">活跃用户 / Active mappers</a>
+                    <a href="#occasional">偶尔 · 曾经活跃</a>
+                    <a href="#cameo">友情客串 / Friendly cameo</a>
+                    <a href="#newcomers">初来乍到 / Newcomers</a>
+                    <a href="#thanks">特别鸣谢 / Special thanks</a>
+                    <a href="#passersby">到此一游 / Passersby</a>
+                </div>
+                <div class="footer-section">
+                    <h3>资源与社区</h3>
+                    <a href="https://opengeofiction.net" target="_blank">OpenGeofiction 官网</a>
+                    <a href="/index.php/Collab:Huaxia/Guide" target="_blank">华夏绘图指南 / Mapping Guide</a>
+                    <a href="https://opengeofiction.net/message/new/%E5%BF%AB%E4%B9%90%E7%9A%84%E8%80%81%E9%BC%A0%E5%AE%9D%E5%AE%9D" target="_blank">
+                        联系总协调员 / Contact coordinator
+                    </a>
+                    <a href="https://www.xiaohongshu.com/user/profile/6754331e0000000016009ad4" class="xiaohongshu-btn" target="_blank">
+                        <i class="fas fa-book"></i> 关注小红书 · 华夏项目
+                    </a>
+                    <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=RWkRJkUPR4v4Sp9T0qATDPywjyyimawQR2q3PBnIAofN0U86EY4rXzBuPN8t2voh&busi_data=eyJncm91cENvZGUiOiI5ODM5MTQ2OTQiLCJ0b2tlbiI6ImJzRlFrMzJkNzZEREtOVldpblgxT3hPbmhIOE1ISEVEd0JxRGcvektQZTRjSGZ3THBQRXhHWTI5aXRjRGQvbTUiLCJ1aW4iOiIxMDIwNDQxOTgzIn0%3D&data=5G_KYP-l6lPTsFSohnfUPzT21zZ-nk1r5mzk3we1MTe2Mas4jyj-QcF7pB0D3jych-2_reU_aHgtybUYAS39Qw&svctype=4&tempid=h5_group_info" class="qq-btn" target="_blank">
+                        <i class="fab fa-qq"></i> 加入QQ群 · 华夏项目
+                    </a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023–2025 OpenGeofiction 华夏协作国家项目 · Contributors list.
+                内容基于 CC BY-SA 4.0 许可共享。
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 主题切换（带本地记忆）
+        (function () {
+            const root = document.documentElement;
+            const toggleBtn = document.getElementById('themeToggle');
+            const THEME_KEY = 'huaxia-theme';
+
+            function applyTheme(theme) {
+                root.setAttribute('data-theme', theme);
+                if (toggleBtn) {
+                    toggleBtn.innerHTML = theme === 'dark'
+                        ? '<i class="fas fa-sun"></i>'
+                        : '<i class="fas fa-moon"></i>';
+                }
+            }
+
+            const stored = localStorage.getItem(THEME_KEY);
+            if (stored === 'dark' || stored === 'light') {
+                applyTheme(stored);
+            } else {
+                applyTheme('light');
+            }
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    applyTheme(next);
+                    localStorage.setItem(THEME_KEY, next);
+                });
+            }
+        })();
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 移动端菜单切换
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerHeight = document.getElementById('header').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - headerHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('navLinks').classList.remove('active');
+                        document.getElementById('hamburger').classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
