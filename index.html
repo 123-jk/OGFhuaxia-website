@@ -1366,6 +1366,89 @@
                 gap: 2rem;
             }
         }
+
+                /* 底部免责声明条 */
+        .disclaimer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2000;
+            background: #111827;
+            color: #e5e7eb;
+            display: none; /* 默认隐藏，JS 决定何时显示 */
+            padding: 0.9rem 1.2rem;
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.35);
+            font-size: 0.9rem;
+        }
+
+        :root[data-theme="dark"] .disclaimer-bar {
+            background: #020617;
+            color: #e5e7eb;
+        }
+
+        .disclaimer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+
+        .disclaimer-text {
+            line-height: 1.6;
+        }
+
+        .disclaimer-text b {
+            font-weight: 700;
+        }
+
+        .disclaimer-close-btn {
+            padding: 0.45rem 1.2rem;
+            border-radius: 999px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            background: #facc15;
+            color: #111827;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        .disclaimer-close-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+            box-shadow: none;
+        }
+
+        .disclaimer-close-btn:not(:disabled):hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+            background: #fde047;
+        }
+
+        .disclaimer-bar.hide {
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.25s ease-out, opacity 0.25s ease-out;
+        }
+
+        @media (max-width: 640px) {
+            .disclaimer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .disclaimer-close-btn {
+                align-self: stretch;
+                text-align: center;
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1671,6 +1754,20 @@
             </div>
         </div>
     </footer>
+
+        <!-- 底部免责声明条 -->
+    <div id="disclaimerBar" class="disclaimer-bar" role="status" aria-live="polite">
+        <div class="disclaimer-inner">
+            <div class="disclaimer-text">
+                <b>免责声明：</b>
+                本页面所述“华夏共和国”、北塔洲等内容均为 OpenGeofiction 虚构世界的一部分，
+                与任何现实国家、地区、人物、事件无关，仅供世界观与地图创作爱好者娱乐与交流之用。
+            </div>
+            <button type="button" class="disclaimer-close-btn">
+                （<span data-countdown>3</span> 秒后可关闭）
+            </button>
+        </div>
+    </div>
 
     <script>
         // 主题切换
@@ -2150,5 +2247,49 @@
 
     });
     </script>
+        <script>
+    // 底部免责声明：强制等待 3 秒后才能关闭，并用 localStorage 记住是否已阅读
+    document.addEventListener('DOMContentLoaded', function () {
+        const bar = document.getElementById('disclaimerBar');
+        if (!bar) return;
+
+        const closeBtn = bar.querySelector('.disclaimer-close-btn');
+        const countdownSpan = bar.querySelector('[data-countdown]');
+
+        // 显示条
+        bar.style.display = 'block';
+
+        // 初始 3 秒倒计时
+        let remaining = 3;
+        closeBtn.disabled = true;
+        if (countdownSpan) countdownSpan.textContent = remaining;
+
+        const timer = setInterval(() => {
+            remaining -= 1;
+            if (remaining > 0) {
+                if (countdownSpan) countdownSpan.textContent = remaining;
+            } else {
+                clearInterval(timer);
+                // 倒计时结束，允许关闭
+                if (countdownSpan) countdownSpan.textContent = '';
+                closeBtn.disabled = false;
+                closeBtn.textContent = '我已了解';
+            }
+        }, 1000);
+
+        closeBtn.addEventListener('click', () => {
+            if (closeBtn.disabled) return;
+            bar.classList.add('hide');
+            localStorage.setItem(ACK_KEY, '1');
+            // 动画结束后移除
+            setTimeout(() => {
+                if (bar && bar.parentNode) {
+                    bar.parentNode.removeChild(bar);
+                }
+            }, 300);
+        });
+    });
+    </script>
+
 </body>
 </html>
