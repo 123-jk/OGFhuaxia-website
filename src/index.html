@@ -92,6 +92,44 @@
             color: var(--primary-color);
         }
         
+        .reading-timer {
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 2px dashed var(--primary-color);
+            text-align: center;
+        }
+        
+        .timer-text {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .timer-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
         .button-group {
             display: flex;
             gap: 1rem;
@@ -111,6 +149,13 @@
             transition: var(--transition);
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .agree-btn.active {
+            opacity: 1;
+            pointer-events: auto;
         }
         
         .agree-btn:hover {
@@ -174,6 +219,15 @@
             与任何现实国家、地区、人物、事件无关，仅供世界观与地图创作爱好者娱乐与交流之用。
         </div>
         
+        <div class="reading-timer">
+            <div class="timer-text">请仔细阅读以上内容，阅读完成后即可继续</div>
+            <div class="timer-display" id="timerDisplay">3</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="timer-text" id="timerStatus">正在计时...</div>
+        </div>
+        
         <div class="button-group">
             <button class="agree-btn" id="agreeBtn">
                 我已了解并同意
@@ -185,6 +239,76 @@
     </div>
 
     <script>
+        // 显示东京时间
+        function updateTokyoTime() {
+            const now = new Date();
+            const tokyoTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
+            
+            const timeString = tokyoTime.toLocaleString('zh-CN', {
+                timeZone: 'Asia/Tokyo',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            
+            // 创建时间显示元素
+            const timeDisplay = document.createElement('div');
+            timeDisplay.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 0.9rem;
+                color: var(--text-color);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                z-index: 1000;
+                font-family: monospace;
+            `;
+            timeDisplay.innerHTML = `东京时间: ${timeString}`;
+            
+            // 如果已经存在时间显示，则更新它
+            const existingTime = document.getElementById('tokyoTimeDisplay');
+            if (existingTime) {
+                existingTime.innerHTML = `东京时间: ${timeString}`;
+            } else {
+                timeDisplay.id = 'tokyoTimeDisplay';
+                document.body.appendChild(timeDisplay);
+            }
+        }
+        
+        // 阅读计时器
+        let timeLeft = 3; // 3秒阅读时间
+        let timerInterval;
+        
+        function startReadingTimer() {
+            const timerDisplay = document.getElementById('timerDisplay');
+            const progressFill = document.getElementById('progressFill');
+            const timerStatus = document.getElementById('timerStatus');
+            const agreeBtn = document.getElementById('agreeBtn');
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                
+                // 更新进度条
+                const progress = ((3 - timeLeft) / 3) * 100;
+                progressFill.style.width = `${progress}%`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = '✓';
+                    timerStatus.textContent = '阅读完成！';
+                    agreeBtn.classList.add('active');
+                }
+            }, 1000);
+        }
+        
         // 同意按钮点击事件
         document.getElementById('agreeBtn').addEventListener('click', function() {
             window.location.href = 'homepage.html';
@@ -217,6 +341,18 @@
         });
         
         document.body.appendChild(themeToggle);
+        
+        // 页面加载完成后启动计时器和时间显示
+        document.addEventListener('DOMContentLoaded', function() {
+            // 启动阅读计时器
+            startReadingTimer();
+            
+            // 显示东京时间
+            updateTokyoTime();
+            
+            // 每秒更新东京时间
+            setInterval(updateTokyoTime, 1000);
+        });
     </script>
 </body>
 </html>
