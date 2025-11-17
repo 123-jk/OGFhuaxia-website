@@ -239,49 +239,6 @@
     </div>
 
     <script>
-        // 显示东京时间
-        function updateTokyoTime() {
-            const now = new Date();
-            const tokyoTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
-            
-            const timeString = tokyoTime.toLocaleString('zh-CN', {
-                timeZone: 'Asia/Tokyo',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            });
-            
-            // 创建时间显示元素
-            const timeDisplay = document.createElement('div');
-            timeDisplay.style.cssText = `
-                position: fixed;
-                top: 20px;
-                left: 20px;
-                background: rgba(255, 255, 255, 0.9);
-                padding: 8px 12px;
-                border-radius: 6px;
-                font-size: 0.9rem;
-                color: var(--text-color);
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                z-index: 1000;
-                font-family: monospace;
-            `;
-            timeDisplay.innerHTML = `东京时间: ${timeString}`;
-            
-            // 如果已经存在时间显示，则更新它
-            const existingTime = document.getElementById('tokyoTimeDisplay');
-            if (existingTime) {
-                existingTime.innerHTML = `东京时间: ${timeString}`;
-            } else {
-                timeDisplay.id = 'tokyoTimeDisplay';
-                document.body.appendChild(timeDisplay);
-            }
-        }
-        
         // 阅读计时器
         let timeLeft = 3; // 3秒阅读时间
         let timerInterval;
@@ -342,16 +299,10 @@
         
         document.body.appendChild(themeToggle);
         
-        // 页面加载完成后启动计时器和时间显示
+        // 页面加载完成后启动计时器
         document.addEventListener('DOMContentLoaded', function() {
             // 启动阅读计时器
             startReadingTimer();
-            
-            // 显示东京时间
-            updateTokyoTime();
-            
-            // 每秒更新东京时间
-            setInterval(updateTokyoTime, 1000);
         });
     </script>
 </body>
