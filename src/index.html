@@ -239,8 +239,10 @@
     </div>
 
     <script>
-        // 阅读计时器
-        let timeLeft = 3; // 3秒阅读时间
+        // 阅读计时器配置
+        const READING_TIME = 5; // 5秒阅读时间，可根据需要调整
+        
+        let timeLeft = READING_TIME;
         let timerInterval;
         
         function startReadingTimer() {
@@ -249,12 +251,15 @@
             const timerStatus = document.getElementById('timerStatus');
             const agreeBtn = document.getElementById('agreeBtn');
             
+            // 初始化显示
+            timerDisplay.textContent = timeLeft;
+            
             timerInterval = setInterval(() => {
                 timeLeft--;
                 timerDisplay.textContent = timeLeft;
                 
                 // 更新进度条
-                const progress = ((3 - timeLeft) / 3) * 100;
+                const progress = ((READING_TIME - timeLeft) / READING_TIME) * 100;
                 progressFill.style.width = `${progress}%`;
                 
                 if (timeLeft <= 0) {
