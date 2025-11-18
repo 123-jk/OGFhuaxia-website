@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重要提示 - 华夏共和国项目</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #C8102E;
+            --primary-dark: #9B0C23;
+            --accent-color: #ffae00;
+            --text-color: #2C3E50;
+            --text-light: #5A6C7D;
+            --light-bg: #F8F9FA;
+            --white: #fffdfd;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 12px;
+        }
+
+        /* 深色模式变量覆盖 */
+        :root[data-theme="dark"] {
+            --primary-color: #F97373;
+            --primary-dark: #F05252;
+            --accent-color: #FACC15;
+            --text-color: #E5E7EB;
+            --text-light: #9CA3AF;
+            --light-bg: #0d182c;
+            --white: #16303f;
+            --shadow: 0 4px 18px rgba(0,0,0,0.7);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.9);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .warning-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            border-left: 6px solid var(--primary-color);
+        }
+        
+        .warning-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .warning-title {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .warning-content {
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+            border: 1px solid rgba(200, 16, 46, 0.1);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .warning-content b {
+            color: var(--primary-color);
+        }
+        
+        .reading-timer {
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 2px dashed var(--primary-color);
+            text-align: center;
+        }
+        
+        .timer-text {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+        
+        .timer-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .agree-btn {
+            background: var(--primary-color);
+            color: #FFFFFF;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .agree-btn.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .agree-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(200, 16, 46, 0.4);
+        }
+        
+        .disagree-btn {
+            background: var(--text-light);
+            color: #FFFFFF;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .disagree-btn:hover {
+            background: #4B5563;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .warning-container {
+                padding: 2rem;
+            }
+            
+            .warning-title {
+                font-size: 1.8rem;
+            }
+            
+            .warning-content {
+                padding: 1.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="warning-container">
+        <div class="warning-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        
+        <h1 class="warning-title">重要提示</h1>
+        
+        <div class="warning-content">
+            <b><div>请仔细阅读以下内容，阅读完成后即可继续</div></b>
+            本页面所述"华夏共和国"、北塔洲等内容均为 OpenGeofiction 虚构世界的一部分，
+            与任何现实国家、地区、人物、事件无关，仅供世界观与地图创作爱好者娱乐与交流之用。
+        </div>
+        
+        <div class="reading-timer">
+            
+            <div class="timer-display" id="timerDisplay">3</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="timer-text" id="timerStatus">正在计时...</div>
+        </div>
+        
+        <div class="button-group">
+            <button class="agree-btn" id="agreeBtn">
+                我已了解并同意
+            </button>
+            <button class="disagree-btn" id="disagreeBtn">
+                不同意并退出
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 阅读计时器配置
+        const READING_TIME = 5; // 5秒阅读时间，可根据需要调整
+        
+        let timeLeft = READING_TIME;
+        let timerInterval;
+        
+        function startReadingTimer() {
+            const timerDisplay = document.getElementById('timerDisplay');
+            const progressFill = document.getElementById('progressFill');
+            const timerStatus = document.getElementById('timerStatus');
+            const agreeBtn = document.getElementById('agreeBtn');
+            
+            // 初始化显示
+            timerDisplay.textContent = timeLeft;
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                
+                // 更新进度条
+                const progress = ((READING_TIME - timeLeft) / READING_TIME) * 100;
+                progressFill.style.width = `${progress}%`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = '✓';
+                    timerStatus.textContent = '阅读完成！';
+                    agreeBtn.classList.add('active');
+                }
+            }, 1000);
+        }
+        
+        // 同意按钮点击事件
+        document.getElementById('agreeBtn').addEventListener('click', function() {
+            window.location.href = 'homepage.html';
+        });
+        
+        // 不同意按钮点击事件
+        document.getElementById('disagreeBtn').addEventListener('click', function() {
+            // 显示明确的退出提示
+            alert('您已选择不同意，将退出访问。');
+            // 尝试关闭窗口（在某些浏览器中可能无效）
+            window.close();
+            // 如果无法关闭，则重定向到空白页面或显示退出信息
+            document.body.innerHTML = '<div style="text-align: center; padding: 3rem; font-family: Arial, sans-serif;"><h2>您已选择退出</h2><p>感谢您的访问，页面已关闭。</p></div>';
+        });
+        
+        // 深色模式切换（与原有页面保持一致）
+        const themeToggle = document.createElement('button');
+        themeToggle.className = 'theme-toggle';
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        themeToggle.style.position = 'fixed';
+        themeToggle.style.top = '20px';
+        themeToggle.style.right = '20px';
+        themeToggle.style.zIndex = '1000';
+        
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            this.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+        
+        document.body.appendChild(themeToggle);
+        
+        // 页面加载完成后启动计时器
+        document.addEventListener('DOMContentLoaded', function() {
+            // 启动阅读计时器
+            startReadingTimer();
+        });
+    </script>
+</body>
+</html>
