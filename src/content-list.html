@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>华夏作品展示</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 图标库，用于深色模式按钮 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- 你可以把这段 style 挪进公共 CSS -->
+  <style>
+    :root {
+      --primary-color: #c8102e;
+      --primary-dark: #9b0c23;
+      --accent-color: #ffae00;
+      --text-color: #111827;
+      --text-light: #6b7280;
+      --bg: #f3f4f6;
+      --white: #ffffff;
+      --border-radius: 0.9rem;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --shadow-hover: 0 18px 40px rgba(15, 23, 42, 0.16);
+      --transition: all 0.22s ease-out;
+    }
+
+    /* 深色模式 */
+    :root[data-theme="dark"] {
+      --primary-color: #f97373;
+      --primary-dark: #f05252;
+      --accent-color: #facc15;
+      --text-color: #e5e7eb;
+      --text-light: #9ca3af;
+      --bg: #020617;
+      --white: #111827;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      --shadow-hover: 0 18px 40px rgba(0, 0, 0, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text-color);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 4rem 1.25rem 3rem;
+    }
+
+    h1, h2 {
+      margin: 0 0 1rem;
+    }
+
+    header.site-header {
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+    }
+
+    :root[data-theme="dark"] header.site-header {
+      background: rgba(15, 23, 42, 0.94);
+    }
+
+    header .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.7rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 700;
+      color: var(--primary-color);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .logo span {
+      font-size: 0.88rem;
+      color: var(--text-light);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .site-nav a {
+      position: relative;
+      text-decoration: none;
+      font-size: 0.95rem;
+      color: var(--text-color);
+      transition: var(--transition);
+      padding-bottom: 0.15rem;
+    }
+
+    .site-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.15rem;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      transition: var(--transition);
+    }
+
+    .site-nav a:hover {
+      color: var(--primary-color);
+    }
+
+    .site-nav a:hover::after {
+      width: 100%;
+    }
+
+    /* 深色模式切换按钮 */
+    .theme-toggle {
+      border: none;
+      background: rgba(148, 163, 184, 0.18);
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .theme-toggle i {
+      font-size: 0.95rem;
+      color: var(--text-color);
+    }
+
+    .theme-toggle:hover {
+      background: rgba(148, 163, 184, 0.35);
+      transform: translateY(-1px);
+    }
+
+    #content-list h2 {
+      font-size: 1.7rem;
+      margin-bottom: 1.8rem;
+    }
+
+    /* 工具栏 */
+    .content-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-left {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .toolbar-chip {
+      border: none;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: rgba(148, 163, 184, 0.18);
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+
+    .toolbar-chip-active,
+    .toolbar-chip:hover {
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .toolbar-right {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-right select,
+    .toolbar-right input[type="search"] {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 0.4rem 0.9rem;
+      font-size: 0.9rem;
+      outline: none;
+      background: var(--white);
+      color: var(--text-color);
+    }
+
+    .toolbar-right input[type="search"] {
+      min-width: 220px;
+    }
+
+    .toolbar-right select:focus,
+    .toolbar-right input[type="search"]:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 1px rgba(200, 16, 46, 0.25);
+    }
+
+    /* 卡片栅格 */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .content-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .content-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .content-card-cover {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+
+    .content-card-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .content-card:hover .content-card-cover img {
+      transform: scale(1.04);
+    }
+
+    .content-card-tag {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.65);
+      color: #f9fafb;
+    }
+
+    .content-card-body {
+      padding: 1.2rem 1.3rem 1.1rem;
+    }
+
+    .content-card-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-color);
+    }
+
+    .content-card-excerpt {
+      font-size: 0.93rem;
+      color: var(--text-light);
+      margin-bottom: 0.8rem;
+      line-height: 1.7;
+    }
+
+    .content-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    /* 分页 */
+    .pagination {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .pagination button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .pagination button:hover:not(:disabled) {
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .pagination button:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding-top: 3.3rem;
+      }
+      header .header-inner {
+        padding-inline: 1rem;
+      }
+      .site-nav {
+        gap: 0.7rem;
+      }
+      .site-nav a {
+        display: none; /* 小屏只保留一个主页链接可自行调整 */
+      }
+      .site-nav a:first-of-type {
+        display: inline-block;
+      }
+      .toolbar-right {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar-right input[type="search"] {
+        min-width: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <div class="logo">
+        华夏设定·内容库
+        <span>Huaxia Content</span>
+      </div>
+      <nav class="site-nav">
+        <a href="homepage.html">项目主页</a>
+        <a href="contributors.html">贡献者名单</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换深色模式">
+          <i class="fas fa-moon"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <section id="content-list">
+    <div class="container">
+      <h2>作品展示</h2>
+
+      <div class="content-toolbar">
+        <div class="toolbar-left">
+          <button class="toolbar-chip toolbar-chip-active" data-tag="all">全部</button>
+          <button class="toolbar-chip" data-tag="city">城市设定</button>
+          <button class="toolbar-chip" data-tag="traffic">交通与基础设施</button>
+          <button class="toolbar-chip" data-tag="nature">自然地理</button>
+        </div>
+        <div class="toolbar-right">
+          <select id="sortSelect">
+            <option value="time_desc">按时间（最新）</option>
+            <option value="time_asc">按时间（最早）</option>
+            <option value="views_desc">按浏览量（最高）</option>
+            <option value="views_asc">按浏览量（最低）</option>
+          </select>
+          <input id="contentSearch" type="search" placeholder="搜索标题或简介…" />
+        </div>
+      </div>
+
+      <div id="contentGrid" class="content-grid">
+        <!-- JS 动态渲染 -->
+      </div>
+
+      <div class="pagination">
+        <button id="prevPage">上一页</button>
+        <span id="pageInfo">第 1 / 1 页</span>
+        <button id="nextPage">下一页</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主题切换脚本（与 contributors.html 同思路） -->
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggleBtn = document.getElementById('themeToggle');
+      const THEME_KEY = 'huaxia-theme';
+
+      function applyTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        if (toggleBtn) {
+          toggleBtn.innerHTML = theme === 'dark'
+            ? '<i class="fas fa-sun"></i>'
+            : '<i class="fas fa-moon"></i>';
+        }
+      }
+
+      const stored = localStorage.getItem(THEME_KEY);
+      if (stored === 'dark' || stored === 'light') {
+        applyTheme(stored);
+      } else {
+        applyTheme('light');
+      }
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+          const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+          const next = current === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+          localStorage.setItem(THEME_KEY, next);
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    const API_BASE = "/api"; // 和后端端口一致
+
+    const state = {
+      tag: "all",
+      sort: "time_desc",
+      page: 1,
+      pageSize: 12,
+      total: 0,
+      keyword: ""
+    };
+
+    function tagLabel(tag) {
+      return {
+        city: "城市设定",
+        traffic: "交通与基础设施",
+        nature: "自然地理"
+      }[tag] || "其他";
+    }
+
+    function formatDate(iso) {
+      return iso?.slice(0, 10) || "";
+    }
+
+    async function fetchList() {
+      const params = new URLSearchParams({
+        tag: state.tag,
+        sort: state.sort,
+        page: state.page,
+        page_size: state.pageSize,
+        keyword: state.keyword
+      });
+
+      const resp = await fetch(`${API_BASE}/content?` + params.toString());
+      const data = await resp.json();
+
+      state.total = data.total;
+      renderList(data.items);
+      renderPagination();
+    }
+
+    function renderList(items) {
+      const grid = document.getElementById("contentGrid");
+      grid.innerHTML = "";
+
+      if (!items.length) {
+        grid.innerHTML = "<p>暂无内容。</p>";
+        return;
+      }
+
+      for (const item of items) {
+        const a = document.createElement("a");
+        a.className = "content-card";
+        a.href = "content-detail.html?id=" + item.id;
+
+        const cover = item.cover || "https://picsum.photos/800/450?blur=4";
+
+        a.innerHTML = `
+          <div class="content-card-cover">
+            <img src="${cover}" alt="${item.title}">
+            <span class="content-card-tag">${tagLabel(item.tag)}</span>
+          </div>
+          <div class="content-card-body">
+            <h3 class="content-card-title">${item.title}</h3>
+            <p class="content-card-excerpt">${item.summary}</p>
+            <div class="content-card-meta">
+              <span>${item.views} 次浏览</span>
+              <span>${formatDate(item.created_at)}</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(a);
+      }
+    }
+
+    function renderPagination() {
+      const pageInfo = document.getElementById("pageInfo");
+      const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
+      pageInfo.textContent = `第 ${state.page} / ${totalPages} 页`;
+      document.getElementById("prevPage").disabled = state.page <= 1;
+      document.getElementById("nextPage").disabled = state.page >= totalPages;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".toolbar-chip").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".toolbar-chip").forEach((b) =>
+            b.classList.remove("toolbar-chip-active")
+          );
+          btn.classList.add("toolbar-chip-active");
+          state.tag = btn.dataset.tag;
+          state.page = 1;
+          fetchList();
+        });
+      });
+
+      document.getElementById("sortSelect").addEventListener("change", (e) => {
+        state.sort = e.target.value;
+        state.page = 1;
+        fetchList();
+      });
+
+      document.getElementById("contentSearch").addEventListener("input", (e) => {
+        state.keyword = e.target.value.trim();
+        state.page = 1;
+        fetchList();
+      });
+
+      document.getElementById("prevPage").addEventListener("click", () => {
+        if (state.page > 1) {
+          state.page--;
+          fetchList();
+        }
+      });
+      document.getElementById("nextPage").addEventListener("click", () => {
+        state.page++;
+        fetchList();
+      });
+
+      fetchList();
+    });
+  </script>
+</body>
+</html>
